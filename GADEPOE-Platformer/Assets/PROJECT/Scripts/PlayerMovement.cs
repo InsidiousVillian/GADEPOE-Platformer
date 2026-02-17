@@ -2,9 +2,15 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
+    public Transform cameraTransform;
+    public float moveSpeed = 6f;
+    public float rotationSpeed = 12f;
     public float jumpForce = 8f;
     public float forwardForce = 5f;
     public LayerMask groundLayer;
+    private Vector3 facingDirection;
+
+
 
     private Rigidbody rb;
     private bool isGrounded;
@@ -17,6 +23,9 @@ public class PlayerMovement : MonoBehaviour
     void Update()
     {
         CheckGround();
+
+        HandleFacingInput();
+
 
         if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
         {
@@ -37,9 +46,36 @@ public class PlayerMovement : MonoBehaviour
 
     void Jump()
     {
+        if (facingDirection == Vector3.zero)
+        return;
+
         rb.velocity = Vector3.zero;
 
-        Vector3 force = new Vector3(0, jumpForce, forwardForce);
+        Vector3 force = facingDirection * forwardForce + Vector3.up * jumpForce;
         rb.AddForce(force, ForceMode.Impulse);
     }
+
+    void HandleFacingInput()
+    {
+        // 4-direction snap along world axes
+        if (Input.GetKeyDown(KeyCode.W))
+        facingDirection = Vector3.forward;   // +Z
+
+        if (Input.GetKeyDown(KeyCode.S))
+        facingDirection = Vector3.back;      // -Z
+
+        if (Input.GetKeyDown(KeyCode.D))
+        facingDirection = Vector3.right;     // +X
+
+        if (Input.GetKeyDown(KeyCode.A))
+        facingDirection = Vector3.left;      // -X
+
+        // rotate player to face direction
+        if (facingDirection != Vector3.zero)
+        {
+            Quaternion targetRotation = Quaternion.LookRotation(facingDirection);
+            transform.rotation = targetRotation;
+        }
+    }
+
 }
