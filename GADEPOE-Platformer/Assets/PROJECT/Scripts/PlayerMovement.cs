@@ -9,7 +9,7 @@ public class PlayerMovement : MonoBehaviour
     public float forwardForce = 5f;
     public LayerMask groundLayer;
     private Vector3 facingDirection;
-
+    private Animator animator;
 
 
     private Rigidbody rb;
@@ -18,6 +18,7 @@ public class PlayerMovement : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+        animator = GetComponent<Animator>();
     }
 
     void Update()
@@ -53,6 +54,9 @@ public class PlayerMovement : MonoBehaviour
 
         Vector3 force = facingDirection * forwardForce + Vector3.up * jumpForce;
         rb.AddForce(force, ForceMode.Impulse);
+
+        // PLAY ANIMATION
+        animator.SetTrigger("Step");
     }
 
     void HandleFacingInput()
