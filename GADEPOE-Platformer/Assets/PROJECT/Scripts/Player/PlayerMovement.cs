@@ -1,15 +1,15 @@
 using System.Threading;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerMovement : MonoBehaviour
 {
     
 
     [Header("Variables")]
-    [SerializeField] float moveSpeed = 6f;
-    [SerializeField] float rotationSpeed = 12f;
     [SerializeField] float jumpForce = 8f;
     [SerializeField] float forwardForce = 5f;
+    
 
     [Header("GameObjects, Transforms")]
     [SerializeField] LayerMask groundLayer;
@@ -17,9 +17,16 @@ public class PlayerMovement : MonoBehaviour
     public Transform cameraTransform;
     private Animator animator;
     private Rigidbody rb;
-    private bool isGrounded;
 
-    private float timer = 0;
+
+    [Header("Checks")]
+    private bool isGrounded;
+    private float FallingTimerCheck = 0.0f;
+    private bool canMove = true;
+    private float resetTimer = 0.5f;
+    private float currentTimer = 0;
+
+    
 
     void Start()
     {
@@ -33,11 +40,39 @@ public class PlayerMovement : MonoBehaviour
 
         HandleFacingInput();
 
+        
+        Debug.Log(currentTimer);
 
-        if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
+        if (!canMove)
         {
-            Jump();
+            currentTimer+= Time.deltaTime;
+
+            if (currentTimer >= resetTimer)
+            {
+                canMove = true;
+                currentTimer = 0f;
+            }
         }
+
+        if (Input.GetKeyDown(KeyCode.Space) && isGrounded && canMove)
+        {
+            
+
+            //CheckIfCanMove();
+
+            Jump();
+
+            canMove = false;
+            currentTimer = 0f;
+            
+
+            
+            //canMove = false;
+
+        }
+
+        
+       
     }
 
     void CheckGround()
@@ -47,14 +82,14 @@ public class PlayerMovement : MonoBehaviour
         // Kill sliding when grounded
         if (isGrounded)
         {
-            rb.linearVelocity = new Vector3(0, rb.linearVelocity.y, 0);
+            rb.linearVelocity = new Vector3(0, 0, 0); //rb.linearVelocity.y 
         }
         else
         {
-            timer += Time.deltaTime;
+            FallingTimerCheck += Time.deltaTime;
         }
 
-        if (timer >= 1)
+        if (FallingTimerCheck >= 1)
         {
             animator.SetTrigger("isFalling");
         }
