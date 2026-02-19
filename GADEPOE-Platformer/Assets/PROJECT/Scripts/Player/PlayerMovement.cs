@@ -1,3 +1,4 @@
+using System.Threading;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
@@ -17,6 +18,8 @@ public class PlayerMovement : MonoBehaviour
     private Animator animator;
     private Rigidbody rb;
     private bool isGrounded;
+
+    private float timer = 0;
 
     void Start()
     {
@@ -48,12 +51,15 @@ public class PlayerMovement : MonoBehaviour
         }
         else
         {
-            Debug.Log("Player Falling");
+            timer += Time.deltaTime;
+        }
 
+        if (timer >= 1)
+        {
             animator.SetTrigger("isFalling");
-            
         }
     }
+
 
     void Jump()
     {
