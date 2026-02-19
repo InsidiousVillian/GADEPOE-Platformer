@@ -2,16 +2,19 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
+    
+
+    [Header("Variables")]
+    [SerializeField] float moveSpeed = 6f;
+    [SerializeField] float rotationSpeed = 12f;
+    [SerializeField] float jumpForce = 8f;
+    [SerializeField] float forwardForce = 5f;
+
+    [Header("GameObjects, Transforms")]
+    [SerializeField] LayerMask groundLayer;
+    [SerializeField] Vector3 facingDirection;
     public Transform cameraTransform;
-    public float moveSpeed = 6f;
-    public float rotationSpeed = 12f;
-    public float jumpForce = 8f;
-    public float forwardForce = 5f;
-    public LayerMask groundLayer;
-    private Vector3 facingDirection;
     private Animator animator;
-
-
     private Rigidbody rb;
     private bool isGrounded;
 
@@ -43,6 +46,13 @@ public class PlayerMovement : MonoBehaviour
         {
             rb.linearVelocity = new Vector3(0, rb.linearVelocity.y, 0);
         }
+        else
+        {
+            Debug.Log("Player Falling");
+
+            animator.SetTrigger("isFalling");
+            
+        }
     }
 
     void Jump()
@@ -63,16 +73,16 @@ public class PlayerMovement : MonoBehaviour
     {
         // 4-direction snap along world axes
         if (Input.GetKeyDown(KeyCode.W))
-        facingDirection = Vector3.forward;   // +Z
+        facingDirection = Vector3.forward;   // snaps to +z
 
         if (Input.GetKeyDown(KeyCode.S))
-        facingDirection = Vector3.back;      // -Z
+        facingDirection = Vector3.back;      // snaps to -z
 
         if (Input.GetKeyDown(KeyCode.D))
-        facingDirection = Vector3.right;     // +X
+        facingDirection = Vector3.right;     // snaps to +x
 
         if (Input.GetKeyDown(KeyCode.A))
-        facingDirection = Vector3.left;      // -X
+        facingDirection = Vector3.left;      // snaps to -x
 
         // rotate player to face direction
         if (facingDirection != Vector3.zero)
