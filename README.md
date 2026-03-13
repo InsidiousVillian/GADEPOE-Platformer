@@ -1,5 +1,18 @@
 Ruins Above the Storm
 
+<div align="center">
+  <h1>Ruins Above the Storm</h1>
+  <p><i>A precision-focused 3D isometric platformer set above the lethal desert clouds.</i></p>
+  
+  <img src="https://i.pinimg.com/originals/e7/d7/d4/e7d7d4b15db6b9929191e4c27fdba49b.gif" width="800px" alt="Ruins Above the Storm Gameplay Demo">
+
+  <br>
+  <p>
+    <b>Precision Jumping</b> • <b>Isometric Navigation</b> • <b>Environmental Storytelling</b>
+  </p>
+</div>
+
+---
 Ruins Above the Storm is a precision-focused 3rd-person isometric 3D platformer built in Unity. Set atop the levitating remnants of an ancient desert civilization, players must navigate precarious floating ruins suspended above a lethal, bottomless sandstorm.
 
 Drawing inspiration from the mechanical clarity of Super Mario 3D World and the atmospheric signposting of Journey, the game emphasizes spatial awareness, momentum-based physics, and environmental puzzle-solving.
