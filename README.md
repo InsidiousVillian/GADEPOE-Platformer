@@ -1,10 +1,10 @@
-Ruins Above the Storm
+# Ruins Above the Storm
 
 <div align="center">
   <h1>Ruins Above the Storm</h1>
   <p><i>A precision-focused 3D isometric platformer set above the lethal desert clouds.</i></p>
   
-  <img src="https://i.pinimg.com/originals/e7/d7/d4/e7d7d4b15db6b9929191e4c27fdba49b.gif" width="800px" alt="Ruins Above the Storm Gameplay Demo">
+  <img src="https://i.pinimg.com/originals/e7/d7/d4/e7d7d4b15db6b9929191e4c27fdba49b.gif" width="400px" alt="Ruins Above the Storm Gameplay Demo">
 
   <br>
   <p>
@@ -13,53 +13,37 @@ Ruins Above the Storm
 </div>
 
 ---
-Ruins Above the Storm is a precision-focused 3rd-person isometric 3D platformer built in Unity. Set atop the levitating remnants of an ancient desert civilization, players must navigate precarious floating ruins suspended above a lethal, bottomless sandstorm.
 
-Drawing inspiration from the mechanical clarity of Super Mario 3D World and the atmospheric signposting of Journey, the game emphasizes spatial awareness, momentum-based physics, and environmental puzzle-solving.
-🎮 Gameplay Overview
+### 🏜️ Project Overview
+**Ruins Above the Storm** is a 3D isometric platformer built in Unity. Navigate precarious floating ruins suspended above a lethal sandstorm, using spatial awareness and precision timing to reach a summit shrine.
 
-In a high-stakes vertical environment, players must ascend toward a summit shrine. The core loop centers on "Readability" and "Mechanical Flow"—challenging the player's ability to judge distances and timing within a fixed three-dimensional coordinate system.
-Core Mechanics
+* **Inspirations:** *Super Mario 3D World* (Clarity) and *Journey* (Signposting).
+* **Core Goal:** Master a vertical environment where every movement is calculated against physics-based constraints.
 
-    Isometric Movement: A camera-relative movement system where input is mapped to the angled perspective (e.g., "Up" moves the character toward the top-right).
+---
 
-    Precision Jumping: Variable jump heights controlled by input duration, allowing for micro-adjustments in mid-air.
+### 🎮 Gameplay & Mechanics
+* **Isometric Movement:** Camera-relative system where "Up" moves the character toward the top-right.
+* **Precision Jumping:** Variable jump heights based on input duration.
+* **Momentum Physics:** Custom gravity and inertia handling for weighted "landing feel."
+* **Environmental Hazards:** Collapsing floors and wind-affected platforms.
 
-    Momentum Physics: Utilizes Unity’s physics engine for gravity and inertia, making landing impact and ground friction critical to success.
+---
 
-    Environmental Hazards: Features collapsing floors and wind-affected platforms that test timing and pathfinding.
+### 🛠️ Technical Implementation
 
-🛠️ Technical Implementation
-Dialogue & Interaction System
+**Dialogue System (Queue ADT)**
+* **Data-Driven:** JSON-loaded dialogue via `Resources`.
+* **Typewriter Effect:** Character-by-character reveal using C# Coroutines.
+* **Trigger-Based:** 3D Colliders decouple narrative logic from hard-coding.
 
-The project includes a custom JSON-driven dialogue system that utilizes a Queue ADT (Abstract Data Type) to manage narrative flow.
+**Character Controller**
+* Physics-based system handling slopes and terminal velocity.
+* Fixed-angle camera for optimized field of vision.
 
-    Data-Driven: Dialogue is stored in external JSON files and loaded via Resources.
+---
 
-    Typewriter Effect: A Coroutine-based UI system that reveals text character-by-character for improved "juice" and player engagement.
-
-    Trigger-Based: Narrative events are fired through 3D Trigger Colliders, decoupling story beats from hard-coded sequences.
-
-Character Controller
-
-    Physics-based controller designed to handle slopes and terminal velocity.
-
-    Fixed isometric camera perspective to provide a wide field of vision and visual signposting.
-
-📂 Project Structure
-
-    Scripts/: Contains the C# logic for character movement, dialogue queues, and trigger interactions.
-
-    Resources/: Holds the dialogue.json data used for in-game NPC interactions and level guides.
-
-    Prefabs/: Modular platforming pieces and "Ancient Shrine" checkpoints.
-
-    Scenes/: Three distinct levels demonstrating a progression in platforming difficulty.
-
-📖 Design Philosophy
-
-    Grid-Based Clarity: Borrowed from Super Mario 3D World, the environment is designed to help players subconsciously measure jump distances.
-
-    Visual Signposting: Inspired by Journey, the ultimate goal (the Summit Shrine) is often visible on the horizon to provide constant orientation.
-
-    Failure States: The "Sandstorm Void" establishes a clear failure state. Falling triggers a respawn at the last activated "Ancient Shrine," maintaining a balance between challenge and progression.
+### 📂 Structure & Design
+* **Scripts/**: Movement, Dialogue Queue, and Trigger logic.
+* **Resources/**: External `dialogue.json` data.
+* **Design Philosophy:** Uses "Grid-Based Clarity" for distance measurement and "Ancient Shrine" checkpoints for balanced failure states.
