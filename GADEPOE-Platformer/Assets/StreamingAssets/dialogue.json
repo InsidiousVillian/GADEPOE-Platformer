@@ -1,0 +1,20 @@
+{
+  "lines": [
+    { 
+      "speaker": "Guide", 
+      "text": "Welcome to the ruins. Use WASD to move and Space to jump." 
+    },
+    { 
+      "speaker": "System", 
+      "text": "Note: Momentum is key. Long jumps require a running start." 
+    },
+    { 
+      "speaker": "Guide", 
+      "text": "Try reaching that high platform. Timing is everything!" 
+    },
+    { 
+      "speaker": "Objective", 
+      "text": "Tutorial Started: Reach the upper ledge to continue." 
+    }
+  ]
+}
