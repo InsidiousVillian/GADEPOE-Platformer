@@ -1,136 +1,125 @@
-using System.Threading;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
+[RequireComponent(typeof(Rigidbody))]
+[RequireComponent(typeof(Animator))]
 public class PlayerMovement : MonoBehaviour
 {
-    
+    [Header("Movement")]
+    [SerializeField] float moveSpeed = 6f;
+    [SerializeField] float acceleration = 20f;
+    [SerializeField] float airControl = 0.5f;
 
-    [Header("Variables")]
+    [Header("Jump")]
     [SerializeField] float jumpForce = 8f;
-    [SerializeField] float forwardForce = 5f;
-    
+    [SerializeField] float gravityMultiplier = 2.5f;
 
-    [Header("GameObjects, Transforms")]
+    [Header("Ground Check")]
     [SerializeField] LayerMask groundLayer;
-    [SerializeField] Vector3 facingDirection;
+    [SerializeField] float groundCheckDistance = 1.1f;
+
+    [Header("References")]
     public Transform cameraTransform;
-    private Animator animator;
+
     private Rigidbody rb;
+    private Animator animator;
 
-
-    [Header("Checks")]
+    private Vector3 moveDirection;
     private bool isGrounded;
-    private float FallingTimerCheck = 0.0f;
-    private bool canMove = true;
-    private float resetTimer = 0.5f;
-    private float currentTimer = 0;
-
-    
 
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         animator = GetComponent<Animator>();
+
+        rb.freezeRotation = true;
     }
 
     void Update()
     {
         CheckGround();
+        HandleInput();
+        HandleRotation();
+        HandleAnimations();
 
-        HandleFacingInput();
-
-        
-        Debug.Log(currentTimer);
-
-        if (!canMove)
+        if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
         {
-            currentTimer+= Time.deltaTime;
-
-            if (currentTimer >= resetTimer)
-            {
-                canMove = true;
-                currentTimer = 0f;
-            }
-        }
-
-        if (Input.GetKeyDown(KeyCode.Space) && isGrounded && canMove)
-        {
-            
-
-            //CheckIfCanMove();
-
             Jump();
-
-            canMove = false;
-            currentTimer = 0f;
-            
-
-            
-            //canMove = false;
-
         }
+    }
 
-        
-       
+    void FixedUpdate()
+    {
+        Move();
+        ApplyExtraGravity();
+    }
+
+    void HandleInput()
+    {
+        float h = Input.GetAxis("Horizontal");
+        float v = Input.GetAxis("Vertical");
+
+        Vector3 camForward = cameraTransform.forward;
+        Vector3 camRight = cameraTransform.right;
+
+        camForward.y = 0;
+        camRight.y = 0;
+
+        camForward.Normalize();
+        camRight.Normalize();
+
+        moveDirection = (camForward * v + camRight * h).normalized;
+    }
+
+    void Move()
+    {
+        float control = isGrounded ? 1f : airControl;
+
+        Vector3 targetVelocity = moveDirection * moveSpeed;
+        Vector3 velocity = rb.linearVelocity;
+
+        Vector3 velocityChange = (targetVelocity - new Vector3(velocity.x, 0, velocity.z))
+                                 * acceleration * control * Time.fixedDeltaTime;
+
+        rb.AddForce(velocityChange, ForceMode.VelocityChange);
+    }
+
+    void HandleRotation()
+    {
+        if (moveDirection == Vector3.zero) return;
+
+        Quaternion targetRotation = Quaternion.LookRotation(moveDirection);
+        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, 10f * Time.deltaTime);
+    }
+
+    void Jump()
+    {
+        rb.linearVelocity = new Vector3(rb.linearVelocity.x, 0f, rb.linearVelocity.z);
+        rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+
+        animator.SetTrigger("Jump");
+    }
+
+    void ApplyExtraGravity()
+    {
+        if (!isGrounded)
+        {
+            rb.AddForce(Vector3.down * gravityMultiplier, ForceMode.Acceleration);
+        }
     }
 
     void CheckGround()
     {
-        isGrounded = Physics.Raycast(transform.position, Vector3.down, 1.1f, groundLayer);
-
-        // Kill sliding when grounded
-        if (isGrounded)
-        {
-            rb.linearVelocity = new Vector3(0, 0, 0); //rb.linearVelocity.y 
-        }
-        else
-        {
-            FallingTimerCheck += Time.deltaTime;
-        }
-
-        if (FallingTimerCheck >= 1)
-        {
-            animator.SetTrigger("isFalling");
-        }
+        isGrounded = Physics.Raycast(transform.position, Vector3.down, groundCheckDistance, groundLayer);
     }
 
-
-    void Jump()
+    void HandleAnimations()
     {
-        if (facingDirection == Vector3.zero)
-        return;
+        float speed = new Vector3(rb.linearVelocity.x, 0, rb.linearVelocity.z).magnitude;
 
-        rb.linearVelocity = Vector3.zero;
+    
+        if (speed < 0.05f) { speed = 0f; }
 
-        Vector3 force = facingDirection * forwardForce + Vector3.up * jumpForce;
-        rb.AddForce(force, ForceMode.Impulse);
-
-        // PLAY ANIMATION
-        animator.SetTrigger("Step");
+        animator.SetFloat("Speed", speed);
+        animator.SetBool("isGrounded", isGrounded);
     }
-
-    void HandleFacingInput()
-    {
-        // 4-direction snap along world axes
-        if (Input.GetKeyDown(KeyCode.W))
-        facingDirection = Vector3.forward;   // snaps to +z
-
-        if (Input.GetKeyDown(KeyCode.S))
-        facingDirection = Vector3.back;      // snaps to -z
-
-        if (Input.GetKeyDown(KeyCode.D))
-        facingDirection = Vector3.right;     // snaps to +x
-
-        if (Input.GetKeyDown(KeyCode.A))
-        facingDirection = Vector3.left;      // snaps to -x
-
-        // rotate player to face direction
-        if (facingDirection != Vector3.zero)
-        {
-            Quaternion targetRotation = Quaternion.LookRotation(facingDirection);
-            transform.rotation = targetRotation;
-        }
-    }
-
 }
