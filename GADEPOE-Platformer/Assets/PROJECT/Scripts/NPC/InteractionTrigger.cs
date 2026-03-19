@@ -4,32 +4,49 @@ using UnityEngine;
 public class InteractionTrigger : MonoBehaviour
 {
     [Header("File Settings")]
-    [Tooltip("The exact name of the file in StreamingAssets (including .json)")]
     [SerializeField] private string fileName = "dialogue.json"; 
+
+    [Header("UI Prompt")]
+    [Tooltip("Drag the 'E' Prompt Canvas/Object here")]
+    [SerializeField] private GameObject interactionPrompt; 
 
     private bool playerInRange;
 
+    void Awake()
+    {
+        // Ensure the prompt is hidden when the game starts
+        if (interactionPrompt != null) interactionPrompt.SetActive(false);
+    }
+
     void Update()
     {
-        // Start dialogue
+        // Start or Cycle dialogue
         if (playerInRange && Input.GetKeyDown(KeyCode.E))
         {
             if (!DialogueManager.Instance.IsDialogueActive)
             {
                 LoadAndTriggerDialogue();
+                // Hide prompt while talking so it doesn't clutter the screen
+                if (interactionPrompt != null) interactionPrompt.SetActive(false);
+            }
+            else
+            {
+                DialogueManager.Instance.DisplayNextLine();
             }
         }
 
-        // Cycle dialogue
-        if (DialogueManager.Instance.IsDialogueActive && Input.GetKeyDown(KeyCode.E))
+        // Re-show prompt if dialogue ends but player is still in range
+        if (playerInRange && !DialogueManager.Instance.IsDialogueActive)
         {
-            DialogueManager.Instance.DisplayNextLine();
+            if (interactionPrompt != null && !interactionPrompt.activeSelf)
+            {
+                interactionPrompt.SetActive(true);
+            }
         }
     }
 
     private void LoadAndTriggerDialogue()
     {
-        // This finds the path to your StreamingAssets folder regardless of platform
         string filePath = Path.Combine(Application.streamingAssetsPath, fileName);
 
         if (File.Exists(filePath))
@@ -49,12 +66,16 @@ public class InteractionTrigger : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             playerInRange = true;
-            Debug.Log("Press E to interact");
+            if (interactionPrompt != null) interactionPrompt.SetActive(true);
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("Player")) playerInRange = false;
+        if (other.CompareTag("Player"))
+        {
+            playerInRange = false;
+            if (interactionPrompt != null) interactionPrompt.SetActive(false);
+        }
     }
 }

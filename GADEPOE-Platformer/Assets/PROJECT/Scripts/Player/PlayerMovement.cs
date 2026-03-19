@@ -36,6 +36,17 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
+        //stops player movement and jumping when dialogue is active
+        if (DialogueManager.Instance != null && DialogueManager.Instance.IsDialogueActive) 
+        { 
+            rb.linearVelocity = Vector3.zero;
+
+            animator.SetFloat("Speed", 0f);
+            
+            return; 
+            
+        }
+
         CheckGround();
         HandleInput();
         HandleRotation();
@@ -99,6 +110,7 @@ public class PlayerMovement : MonoBehaviour
         animator.SetTrigger("Jump");
     }
 
+    // Applies extra gravity when in the air for a snappier jump feel
     void ApplyExtraGravity()
     {
         if (!isGrounded)
