@@ -3,11 +3,14 @@ using UnityEngine;
 
 public class InteractionTrigger : MonoBehaviour
 {
-    [Header("File Settings")]
+    [Header("Dialogue Settings")]
+    [Tooltip("The exact name of the file in StreamingAssets (including .json)")]
     [SerializeField] private string fileName = "dialogue.json"; 
+    [Tooltip("The ID in the JSON file for this specific NPC/Object")]
+    [SerializeField] private string conversationID; 
 
     [Header("UI Prompt")]
-    [Tooltip("Drag the 'E' Prompt Canvas/Object here")]
+    [Tooltip("Drag the floating 'E' Canvas/Object here")]
     [SerializeField] private GameObject interactionPrompt; 
 
     private bool playerInRange;
@@ -20,22 +23,25 @@ public class InteractionTrigger : MonoBehaviour
 
     void Update()
     {
-        // Start or Cycle dialogue
+        // Check for interaction input
         if (playerInRange && Input.GetKeyDown(KeyCode.E))
         {
+            // If dialogue isn't running, start it
             if (!DialogueManager.Instance.IsDialogueActive)
             {
                 LoadAndTriggerDialogue();
-                // Hide prompt while talking so it doesn't clutter the screen
+                
+                // Hide the 'E' prompt while the dialogue is open
                 if (interactionPrompt != null) interactionPrompt.SetActive(false);
             }
             else
             {
+                // If dialogue IS running, E will cycle to the next line
                 DialogueManager.Instance.DisplayNextLine();
             }
         }
 
-        // Re-show prompt if dialogue ends but player is still in range
+        // Optional: Re-show prompt if dialogue ended but player is still standing there
         if (playerInRange && !DialogueManager.Instance.IsDialogueActive)
         {
             if (interactionPrompt != null && !interactionPrompt.activeSelf)
@@ -47,13 +53,28 @@ public class InteractionTrigger : MonoBehaviour
 
     private void LoadAndTriggerDialogue()
     {
+        // Path to your StreamingAssets folder
         string filePath = Path.Combine(Application.streamingAssetsPath, fileName);
 
         if (File.Exists(filePath))
         {
             string jsonContents = File.ReadAllText(filePath);
+            
+            // Parse the JSON into our DialogueData object
             DialogueData data = JsonUtility.FromJson<DialogueData>(jsonContents);
-            DialogueManager.Instance.StartDialogue(data);
+
+            // Find the specific conversation in the array that matches our ID
+            Conversation myConvo = System.Array.Find(data.conversations, c => c.id == conversationID);
+
+            if (myConvo != null)
+            {
+                // Pass only the lines from that specific conversation to the Manager
+                DialogueManager.Instance.StartDialogue(myConvo.lines);
+            }
+            else
+            {
+                Debug.LogError($"Conversation ID '{conversationID}' not found in {fileName} on {gameObject.name}");
+            }
         }
         else
         {
@@ -67,6 +88,7 @@ public class InteractionTrigger : MonoBehaviour
         {
             playerInRange = true;
             if (interactionPrompt != null) interactionPrompt.SetActive(true);
+            Debug.Log($"In range of {gameObject.name}. Press E to interact.");
         }
     }
 
@@ -76,6 +98,9 @@ public class InteractionTrigger : MonoBehaviour
         {
             playerInRange = false;
             if (interactionPrompt != null) interactionPrompt.SetActive(false);
+            
+            // Optional: Close dialogue if the player walks away mid-conversation
+            // DialogueManager.Instance.EndDialogue(); 
         }
     }
 }

@@ -36,13 +36,13 @@ public class DialogueManager : MonoBehaviour
         if (dialoguePanel != null) dialoguePanel.SetActive(false);
     }
 
-    public void StartDialogue(DialogueData data)
+    public void StartDialogue(DialogueLine[] lines) 
     {
         IsDialogueActive = true;
         dialoguePanel.SetActive(true);
         dialogueQueue.Clear();
 
-        foreach (DialogueLine line in data.lines)
+        foreach (DialogueLine line in lines)
         {
             dialogueQueue.Enqueue(line);
         }

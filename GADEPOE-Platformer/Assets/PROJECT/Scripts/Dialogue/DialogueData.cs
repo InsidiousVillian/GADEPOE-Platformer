@@ -1,5 +1,3 @@
-using UnityEngine;
-
 [System.Serializable]
 public class DialogueLine
 {
@@ -8,7 +6,14 @@ public class DialogueLine
 }
 
 [System.Serializable]
+public class Conversation
+{
+    public string id; 
+    public DialogueLine[] lines;
+}
+
+[System.Serializable]
 public class DialogueData
 {
-    public DialogueLine[] lines;
+    public Conversation[] conversations; 
 }

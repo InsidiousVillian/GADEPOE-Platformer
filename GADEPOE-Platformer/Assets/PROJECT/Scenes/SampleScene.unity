@@ -2503,6 +2503,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InteractionTrigger
   fileName: dialogue.json
+  conversationID: 
   interactionPrompt: {fileID: 1180210223}
 --- !u!1001 &237793932
 PrefabInstance:
@@ -9209,6 +9210,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InteractionTrigger
   fileName: dialogue.json
+  conversationID: NPC_OldMan
   interactionPrompt: {fileID: 381209723}
 --- !u!136 &1263599976
 CapsuleCollider:
