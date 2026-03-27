@@ -1,25 +1,53 @@
 using UnityEngine;
+using System;
 
 public class PlayerStats : MonoBehaviour
 {
-    [Header("Current Stats")]
-    public int score = 0;
-    public int lives = 3;
+    public static PlayerStats Instance { get; private set; }
 
-    public void AddScore(int amount)
+    [Header("Health Settings")]
+    [SerializeField] private int maxHealth = 100;
+    private int currentHealth;
+
+    [Header("Economy")]
+    private int goldCount = 0;
+
+    // UI Events - These "shout" to the UIManager
+    public event Action<int, int> OnHealthChanged;
+    public event Action<int> OnGoldChanged;
+
+    private void Awake()
     {
-        score += amount;
-        Debug.Log($"Score Updated: {score}");
+        if (Instance == null) Instance = this;
+        currentHealth = maxHealth;
     }
 
-    public void LoseHealth()
+    private void Start()
     {
-        lives--;
-        Debug.Log($"Life Lost! Remaining: {lives}");
-        
-        if (lives <= 0)
-        {
-            Debug.Log("Game Over screen overlay");
-        }
+        // Initial UI Sync
+        OnHealthChanged?.Invoke(currentHealth, maxHealth);
+        OnGoldChanged?.Invoke(goldCount);
+    }
+
+    public void Heal(int amount)
+    {
+        currentHealth = Mathf.Clamp(currentHealth + amount, 0, maxHealth);
+        OnHealthChanged?.Invoke(currentHealth, maxHealth);
+        Debug.Log("Healed! Current Health: " + currentHealth);
+    }
+
+    public void TakeDamage(int amount)
+    {
+        currentHealth = Mathf.Clamp(currentHealth - amount, 0, maxHealth);
+        OnHealthChanged?.Invoke(currentHealth, maxHealth);
+    }
+
+    // Fixes your CS1061 Error: 
+    // This allows Collectables.cs to call "AddScore"
+    public void AddScore(int amount)
+    {
+        goldCount += amount;
+        OnGoldChanged?.Invoke(goldCount);
+        Debug.Log("Gold Collected! Total: " + goldCount);
     }
 }

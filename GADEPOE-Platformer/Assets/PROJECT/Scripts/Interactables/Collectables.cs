@@ -1,4 +1,3 @@
-using UnityEditor.ShaderGraph.Internal;
 using UnityEngine;
 
 public class Collectables : MonoBehaviour
@@ -11,9 +10,10 @@ public class Collectables : MonoBehaviour
 
     void Update()
     {
-        //rotates the collectable for visual effect
+        // Rotates the collectable for visual effect
         transform.Rotate(Vector3.up, rotationSpeed * Time.deltaTime);
     } 
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
@@ -36,16 +36,21 @@ public class Collectables : MonoBehaviour
         switch (collectableType)
         {
             case Type.GoldBar:
-                stats.AddScore(value);
+                // Calls the method that triggers the Gold UI update
+                stats.AddScore(value); 
                 break;
+
             case Type.HealthPack:
-                stats.lives += value;
-                Debug.Log($"Health increased! Lives: {stats.lives}");
+                // CHANGED: Instead of stats.lives += value, we call Heal()
+                // This ensures the UI Slider moves!
+                stats.Heal(value); 
                 break;
+
             case Type.PowerUp:
                 Debug.Log("Power-Up collected! Effect not implemented yet.");
                 break;
-            case Type.None: // just using this for error handlinhg
+
+            case Type.None: 
                 Debug.LogWarning("Collectable type is set to None. No effect applied.");
                 break;
         }
