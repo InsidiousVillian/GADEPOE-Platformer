@@ -7,10 +7,10 @@ public class PlayerStats : MonoBehaviour
 
     [Header("Health Settings")]
     [SerializeField] private int maxHealth = 100;
-    private int currentHealth;
+    public int currentHealth;
 
     [Header("Economy")]
-    private int goldCount = 0;
+    public int goldCount = 0;
 
     // UI Events - These "shout" to the UIManager
     public event Action<int, int> OnHealthChanged;
