@@ -3373,6 +3373,18 @@ PrefabInstance:
       propertyPath: m_MaxValue
       value: 100
       objectReference: {fileID: 0}
+    - target: {fileID: 5403033386275227821, guid: 5d402b7484c02514589c57051bd27f03, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5403033386275227821, guid: 5d402b7484c02514589c57051bd27f03, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5403033386275227821, guid: 5d402b7484c02514589c57051bd27f03, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 5857028578078574311, guid: 5d402b7484c02514589c57051bd27f03, type: 3}
       propertyPath: m_Pivot.x
       value: 0

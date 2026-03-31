@@ -12,7 +12,7 @@ public class PlayerStats : MonoBehaviour
     [Header("Economy")]
     public int goldCount = 0;
 
-    // UI Events - These "shout" to the UIManager
+    // UI Events to notify the UIManager of changes
     public event Action<int, int> OnHealthChanged;
     public event Action<int> OnGoldChanged;
 
@@ -42,8 +42,8 @@ public class PlayerStats : MonoBehaviour
         OnHealthChanged?.Invoke(currentHealth, maxHealth);
     }
 
-    // Fixes your CS1061 Error: 
-    // This allows Collectables.cs to call "AddScore"
+
+    // This allows Collectables to call this method
     public void AddScore(int amount)
     {
         goldCount += amount;

@@ -1,5 +1,9 @@
 using UnityEngine;
-
+/* Data class to store checkpoint information 
+    - Player position
+    - Player lives
+    - Player gold
+*/
 public class CheckpointData
 {
     public Vector3 playerPosition;

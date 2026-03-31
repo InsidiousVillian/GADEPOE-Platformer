@@ -22,7 +22,10 @@ public class DialogueManager : MonoBehaviour
     [Header("Settings")]
     [SerializeField] private float typingSpeed = 0.04f; 
 
+    // Queue to manage dialogue lines and state variables
     private Queue<DialogueLine> dialogueQueue;
+
+    // Property to track if dialogue is currently active, and a flag for typing state
     public bool IsDialogueActive { get; private set; }
     private bool isTyping; 
 
@@ -36,6 +39,9 @@ public class DialogueManager : MonoBehaviour
         if (dialoguePanel != null) dialoguePanel.SetActive(false);
     }
 
+
+    // Method to start a new dialogue sequence with an array of dialogue lines
+    // This method sets the dialogue as active, shows the dialogue panel, and enqueues all the dialogue lines to be displayed.
     public void StartDialogue(DialogueLine[] lines) 
     {
         IsDialogueActive = true;
@@ -50,6 +56,7 @@ public class DialogueManager : MonoBehaviour
         DisplayNextLine();
     }
 
+    // Method to end a dialogue sequence, hiding the dialogue panel and resetting the dialogue queue.
     public void DisplayNextLine()
     {
         //if currentrly typing doenst allow skippinh to next line 
@@ -74,7 +81,8 @@ public class DialogueManager : MonoBehaviour
     {
         isTyping = true;
         dialogueBodyText.text = ""; 
-
+         
+        // Loop through each character in the dialogue line, adding it to the dialogue body text with a delay to create a typewriter effect.
         foreach (char letter in line.ToCharArray())
         {
             dialogueBodyText.text += letter;

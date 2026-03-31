@@ -19,7 +19,7 @@ public class PlayerMovement : MonoBehaviour
 
     [Header("References")]
     public Transform cameraTransform;
-
+ 
     private Rigidbody rb;
     private Animator animator;
 
@@ -88,10 +88,11 @@ public class PlayerMovement : MonoBehaviour
         Vector3 targetVelocity = moveDirection * moveSpeed;
         Vector3 velocity = rb.linearVelocity;
 
-        Vector3 velocityChange = (targetVelocity - new Vector3(velocity.x, 0, velocity.z))
-                                 * acceleration * control * Time.fixedDeltaTime;
-
+        Vector3 velocityChange = (
+        targetVelocity - new Vector3(velocity.x, 0, velocity.z))
+        * acceleration * control * Time.fixedDeltaTime;
         rb.AddForce(velocityChange, ForceMode.VelocityChange);
+
     }
 
     void HandleRotation()

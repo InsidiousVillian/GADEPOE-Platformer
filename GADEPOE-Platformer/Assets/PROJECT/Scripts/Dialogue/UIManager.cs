@@ -11,6 +11,10 @@ public class UIManager : MonoBehaviour
     [Header("Economy UI")]
     [SerializeField] private TextMeshProUGUI goldText;
 
+    /* This script manages the player's health and gold UI elements. 
+    It listens for changes in the player's health and gold through events in the PlayerStats class, and updates the UI accordingly.
+     The health slider and text are updated to reflect the player's current health, 
+     while the gold text displays the total amount of gold the player has.*/
     private void OnEnable()
     {
         // Subscribe to the events when the UI is active
@@ -18,6 +22,12 @@ public class UIManager : MonoBehaviour
         PlayerStats.Instance.OnGoldChanged += UpdateGoldUI;
     }
 
+    /*
+        Unsubscribe from events when the UI is disabled to prevent memory leaks and errors.
+        This ensures that the UIManager does not try to update the UI when it is not active, 
+        which could lead to null reference exceptions 
+        if the PlayerStats instance is destroyed or if the UIManager is disabled.
+     */
     private void OnDisable()
     {
         // Unsubscribe to prevent memory leaks/errors
