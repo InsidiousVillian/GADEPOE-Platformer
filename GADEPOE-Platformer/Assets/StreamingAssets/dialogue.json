@@ -21,9 +21,19 @@
         { "speaker": "Objective", "text": "Objective Complete: Tutorial Finished!" },
         { "speaker": "Guide", "text": "Great job! You're ready to explore the rest of the ruins." }
       ]
-    }
+    },
+      {
+        "id": "NPC_MysteriousFigure",
+        "lines": [
+          { "speaker": "Mysterious Figure", "text": "I see you've made it this far. The storm is just the beginning." },
+          { "speaker": "Mysterious Figure", "text": "Beware of what lies ahead, for the ruins hold many secrets." }
+        ] 
+      } ,
+      { "id": "NPC_Done", "lines": [
+          { "speaker": "Done", "text": "you have completed the advanced quest, proceed to the expert level." }
+        ] 
+      }
 
-    
 
   ]
 }
