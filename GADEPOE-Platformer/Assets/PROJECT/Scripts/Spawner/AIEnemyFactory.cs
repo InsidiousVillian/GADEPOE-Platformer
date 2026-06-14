@@ -3,6 +3,7 @@ using UnityEngine;
 public class AIEnemyFactory : AbstractEnemyFactory
 {
     [SerializeField] private GameObject patrolPrefab;
+
     public override EnemyBase CreateEnemy(string type, Vector3 position)
     {
         GameObject newEnemyObj;

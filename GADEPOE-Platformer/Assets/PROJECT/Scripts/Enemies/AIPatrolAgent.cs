@@ -4,8 +4,8 @@ using UnityEngine.AI;
 public class AIPatrolAgent : MonoBehaviour
 {
     public WaypointList waypointList; 
-    private WaypointNode currentNode;       // The node we are currently targeting
-    private NavMeshAgent navAgent;          // Unity's NavMesh system.
+    private WaypointNode currentNode;// The node we are currently targeting
+    private NavMeshAgent navAgent;       
 
     void Awake()
     {

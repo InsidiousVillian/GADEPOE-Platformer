@@ -29,7 +29,7 @@ public class WaypointList : MonoBehaviour
         tail.Next = head;
     }
 
-    // A helper method for the AI to get the starting point.
+    // A helper method for the ai to get the starting point.
     public WaypointNode GetFirstNode()
     {
         return head;
