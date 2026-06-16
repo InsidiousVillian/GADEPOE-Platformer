@@ -1,5 +1,5 @@
 using UnityEngine;
-using UnityEngine.AI; // Required for NavMesh components
+using UnityEngine.AI; 
 
 [RequireComponent(typeof(NavMeshAgent))]
 public class EnemyPathfinder : MonoBehaviour
@@ -13,8 +13,6 @@ public class EnemyPathfinder : MonoBehaviour
     {
         agent = GetComponent<NavMeshAgent>();
         
-        // Give the agent its initial destination
-        UpdateAgentDestination();
     }
 
     private void Update()
