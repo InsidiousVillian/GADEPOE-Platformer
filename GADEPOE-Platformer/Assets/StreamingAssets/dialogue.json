@@ -32,6 +32,12 @@
       { "id": "NPC_Done", "lines": [
           { "speaker": "Done", "text": "you have completed the advanced quest, proceed to the expert level." }
         ] 
+      },
+      {
+        "id": "NPC_hiddenPath",
+        "lines": [
+          { "speaker": "Hidden Path", "text": "You've discovered a secret passage. Proceed with caution." }
+        ]
       }
 
 

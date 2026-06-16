@@ -36,9 +36,5 @@ public class EnemySpawnerManager : MonoBehaviour
         // Inject the starting pathnode to kick off the custom Graph pathfinding!
         fastEnemy.Initialize(startingWaypoint);
 
-        // 2. Spawn a Heavy Brute slightly offset so they don't overlap
-        Vector3 offsetPos = spawnLocation.position + new Vector3(2f, 0f, 0f);
-        Enemy heavyEnemy = enemyFactory.CreateHeavyEnemy(heavyBrutePrefab, offsetPos, spawnLocation.rotation);
-        heavyEnemy.Initialize(startingWaypoint);
     }
 }
