@@ -1,4 +1,4 @@
-using UnityEngine;
+/*using UnityEngine;
 
 [RequireComponent(typeof(CharacterController))]
 public class PlayerController3D : MonoBehaviour
@@ -128,4 +128,4 @@ public class PlayerController3D : MonoBehaviour
             stepTimer = 0f;
         }
     }
-}
+}*/

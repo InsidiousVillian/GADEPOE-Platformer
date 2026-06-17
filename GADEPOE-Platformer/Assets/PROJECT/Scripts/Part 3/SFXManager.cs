@@ -3,26 +3,30 @@ using UnityEngine;
 [RequireComponent(typeof(AudioSource))]
 public class SFXManager : MonoBehaviour
 {
-    // A simple struct so you can easily assign names and clips inside Unity's Inspector
+    // A simple struct so I can easily assign names and clips inside Unity's Inspector
     [System.Serializable]
     public struct SoundSetup
     {
-        public string soundName; // e.g. "Footstep", "PlatformStart", "Spawn"
+        public string soundName; 
         public AudioClip clip;
     }
 
     [Header("Sound Config Array")]
     [SerializeField] private SoundSetup[] soundRegistry;
 
+    [Header("Dedicated Music Channel")]
+    [Tooltip("Drag your second, dedicated music AudioSource component here!")]
+    [SerializeField] private AudioSource musicSource; 
+
     private CustomSFXHashMap sfxMap;
-    private AudioSource audioSource;
+    private AudioSource sfxSource;
 
     private void Awake()
     {
-        audioSource = GetComponent<AudioSource>();
+        sfxSource = GetComponent<AudioSource>();
         sfxMap = new CustomSFXHashMap(20); // Create our custom map with a capacity of 20 buckets
 
-        // Initialize the custom hashmap with the files assigned in the Inspector
+        // Initialise the custom hashmap with the files assigned in the Inspector
         InitializeMap();
     }
 
@@ -48,12 +52,43 @@ public class SFXManager : MonoBehaviour
 
         if (clipToPlay != null)
         {
-            // PlayOneShot allows multiple clips to overlay naturally without cutting each other off
-            audioSource.PlayOneShot(clipToPlay);
+            
+            sfxSource.PlayOneShot(clipToPlay);
         }
         else
         {
             Debug.LogWarning($"Sound key '{soundName}' could not be found in the custom HashMap!");
+        }
+    }
+
+    
+    public void PlayBackgroundMusic(string musicKey)
+    {
+        // Query your custom lookup map class wrapper object directly
+        AudioClip musicClip = sfxMap.Get(musicKey);
+
+        if (musicClip != null && musicSource != null)
+        {
+
+            if (musicSource.clip == musicClip && musicSource.isPlaying) return;
+
+            musicSource.clip = musicClip;
+            musicSource.loop = true;       
+            musicSource.playOnAwake = false;
+            
+            musicSource.Play();
+            Debug.Log($"SFXManager: Custom HashMap streaming background music track: {musicKey}");
+        }
+        else
+        {
+            if (musicSource == null)
+            {
+                Debug.LogError("SFXManager: The musicSource AudioSource field is unassigned in the inspector!");
+            }
+            else
+            {
+                Debug.LogWarning($"Music key '{musicKey}' could not be found in the custom HashMap!");
+            }
         }
     }
 }

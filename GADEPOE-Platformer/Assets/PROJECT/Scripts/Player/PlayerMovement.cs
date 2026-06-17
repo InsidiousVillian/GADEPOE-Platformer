@@ -71,7 +71,7 @@ public class PlayerMovement : MonoBehaviour
         float h = Input.GetAxis("Horizontal");
         float v = Input.GetAxis("Vertical");
 
-        // Use our fallback protection check just in case the camera reference is unassigned
+    
         if (cameraTransform == null && Camera.main != null)
         {
             cameraTransform = Camera.main.transform;

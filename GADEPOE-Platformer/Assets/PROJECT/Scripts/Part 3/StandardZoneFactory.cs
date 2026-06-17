@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class StandardZoneFactory : MonoBehaviour, IEnemyFactory
 {
-    // Spawns a fast/standard goon and returns the base Enemy component
+    // Spawns a fast goon and returns the base Enemy component
     public Enemy CreateStandardEnemy(GameObject prefab, Vector3 spawnPosition, Quaternion spawnRotation)
     {
         GameObject enemyObj = Instantiate(prefab, spawnPosition, spawnRotation);

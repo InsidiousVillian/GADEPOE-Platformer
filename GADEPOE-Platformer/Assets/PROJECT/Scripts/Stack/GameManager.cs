@@ -39,6 +39,12 @@ public class GameManager : MonoBehaviour
             myCustomStack.Push(startData);
             Debug.Log("Starting Checkpoint Saved!");
         }
+        SFXManager sfx = FindObjectOfType<SFXManager>();
+        if (sfx != null)
+            {
+               
+                sfx.PlayBackgroundMusic("LevelMusic"); 
+        }
     }
 
     public void OnPlayerHitCheckpoint(Transform newPosition)

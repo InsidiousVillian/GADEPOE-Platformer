@@ -14,7 +14,7 @@ public class EnemySpawnerManager : MonoBehaviour
 
     private void Start()
     {
-        // Grab the concrete factory attached to this GameObject
+        // Grabs the concrete factory attached to this GameObject
         enemyFactory = GetComponent<IEnemyFactory>();
 
         if (enemyFactory == null)
@@ -23,7 +23,6 @@ public class EnemySpawnerManager : MonoBehaviour
             return;
         }
 
-        // Test Spawning! Let's spawn one of each type onto our Graph ADT path
         SpawnWave();
     }
 

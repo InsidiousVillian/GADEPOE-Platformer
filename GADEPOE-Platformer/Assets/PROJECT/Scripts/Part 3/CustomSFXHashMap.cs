@@ -17,18 +17,18 @@ public class CustomSFXHashMap
         if (key == null) return 0;
 
         int hashCode = 0;
-        // Simple polynomial rolling hash algorithm
+        // rolling hash algorithm
         for (int i = 0; i < key.Length; i++)
         {
             hashCode = (hashCode * 31) + key[i];
         }
 
-        // Ensure index is positive and fits inside our bucket array size
+       
         int index = hashCode % bucketCount;
         return index < 0 ? index + bucketCount : index;
     }
 
-    // Insert or update a key-value pair (The 'Add' operation)
+
     public void Put(string key, AudioClip value)
     {
         int index = GetHashIndex(key);
@@ -39,7 +39,7 @@ public class CustomSFXHashMap
         {
             if (head.Key == key)
             {
-                head.Value = value; // Update existing sound clip
+                head.Value = value; 
                 return;
             }
             head = head.Next;
@@ -51,7 +51,7 @@ public class CustomSFXHashMap
         buckets[index] = newNode;
     }
 
-    // Look up a value by its key (The 'Get' operation)
+    // Look up a value by its key
     public AudioClip Get(string key)
     {
         int index = GetHashIndex(key);
@@ -62,7 +62,7 @@ public class CustomSFXHashMap
         {
             if (head.Key == key)
             {
-                return head.Value; // Found the clip!
+                return head.Value; // Return the found AudioClip
             }
             head = head.Next;
         }

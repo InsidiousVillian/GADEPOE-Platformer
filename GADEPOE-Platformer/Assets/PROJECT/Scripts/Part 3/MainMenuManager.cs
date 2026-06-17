@@ -29,7 +29,6 @@ public class MainMenuManager : MonoBehaviour
         SceneManager.LoadScene(Scene3);
     }
 
-    // 2. Trigger this method via the Quit Button
     public void QuitGame()
     {
         Debug.Log("MainMenu: Exiting application...");

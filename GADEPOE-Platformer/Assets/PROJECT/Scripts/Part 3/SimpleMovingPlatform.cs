@@ -1,6 +1,6 @@
 using UnityEngine;
 
-// An interface allows our player trigger script to easily talk to this platform
+// An interface allows the player trigger script to easily talk to this platform
 public interface IMovingPlatform
 {
     void StartMoving();
@@ -14,7 +14,7 @@ public class SimpleMovingPlatform : MonoBehaviour, IMovingPlatform
     
     [Header("Settings")]
     public float speed = 2.0f;
-    public bool isMoving = true; // Uncheck this in Inspector if you want it to wait for the player
+    public bool isMoving = true; 
 
     private Vector3 currentTarget;
 
@@ -42,7 +42,6 @@ public class SimpleMovingPlatform : MonoBehaviour, IMovingPlatform
         }
     }
 
-    // This function gets called by our Player trigger script to kick off movement
     public void StartMoving()
     {
         isMoving = true;

@@ -15,7 +15,7 @@ public class GraphNode : MonoBehaviour
         }
     }
 
-    // Visualizes the branching paths in the Unity Editor scene view
+    // Gizmos to visualise the graph connections in the Unity Editor
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.cyan;
