@@ -11,6 +11,10 @@ public class PlayerController3D : MonoBehaviour
     [SerializeField] private float gravity = 20.0f;
     [SerializeField] private float jumpForce = 8.0f;
 
+    [Header("Footstep Timing Cooldown")]
+    [SerializeField] private float stepCooldown = 0.4f; // Time in seconds between footsteps
+    private float stepTimer = 0f;
+
     private CharacterController controller;
     private Camera mainCamera;
     private Vector3 moveDirection = Vector3.zero;
@@ -33,7 +37,6 @@ public class PlayerController3D : MonoBehaviour
                 Debug.LogWarning("PlayerController3D: Found a camera, but it wasn't tagged 'MainCamera'. Please tag it!");
             }
         }
-
     }
 
     private void Update()
@@ -81,17 +84,48 @@ public class PlayerController3D : MonoBehaviour
                 moveDirection.z = 0f;
             }
 
-            // 4. Handle Jumping
+            // 4. Safe Footstep Audio Trigger Execution Window
+            if (inputDirection.magnitude >= 0.1f)
+            {
+                PlayFootstepSFX();
+            }
+            else
+            {
+                // Reset the timer when standing still so footsteps play instantly when moving again
+                stepTimer = stepCooldown; 
+            }
+
+            // 5. Handle Jumping
             if (Input.GetButtonDown("Jump"))
             {
                 moveDirection.y = jumpForce;
             }
         }
 
-        // 5. Apply Gravity
+        // 6. Apply Gravity
         moveDirection.y -= gravity * Time.deltaTime;
 
-        // 6. Execute Movement via the character capsule
+        // 7. Execute Movement via the character capsule
         controller.Move(moveDirection * Time.deltaTime);
+    }
+
+    public void PlayFootstepSFX()
+    {
+        // Advance our timer incrementally over frame updates
+        stepTimer += Time.deltaTime;
+
+        // Only issue a lookup request if the threshold has passed
+        if (stepTimer >= stepCooldown)
+        {
+            // Find our custom manager map instance and fetch sound file
+            SFXManager sfx = FindObjectOfType<SFXManager>();
+            if (sfx != null)
+            {
+                sfx.PlaySFX("Footstep");
+            }
+            
+            // Re-zero out counter tracking
+            stepTimer = 0f;
+        }
     }
 }

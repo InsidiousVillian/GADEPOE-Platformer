@@ -4,14 +4,15 @@ using UnityEngine;
 public class InteractionTrigger : MonoBehaviour
 {
     [Header("Dialogue Settings")]
-    [Tooltip("The exact name of the file in StreamingAssets (including .json)")]
     [SerializeField] private string fileName = "dialogue.json"; 
-    [Tooltip("The ID in the JSON file for this specific NPC/Object")]
     [SerializeField] private string conversationID; 
 
     [Header("UI Prompt")]
-    [Tooltip("Drag the floating 'E' Canvas/Object here")]
-    [SerializeField] private GameObject interactionPrompt; 
+       [SerializeField] private GameObject interactionPrompt; 
+
+    [Header("Custom HashMap Audio Settings")]
+    [Tooltip("The exact key string registered inside your SFXManager inspector layout")]
+    [SerializeField] private string interactionSFXKey = "InteractClick";
 
     private bool playerInRange;
 
@@ -31,6 +32,8 @@ public class InteractionTrigger : MonoBehaviour
             {
                 LoadAndTriggerDialogue();
                 
+                PlayInteractionSound();
+
                 // Hide the 'E' prompt while the dialogue is open
                 if (interactionPrompt != null) interactionPrompt.SetActive(false);
             }
@@ -38,6 +41,8 @@ public class InteractionTrigger : MonoBehaviour
             {
                 // If dialogue IS running, E will cycle to the next line
                 DialogueManager.Instance.DisplayNextLine();
+
+                PlayInteractionSound();
             }
         }
 
@@ -48,6 +53,16 @@ public class InteractionTrigger : MonoBehaviour
             {
                 interactionPrompt.SetActive(true);
             }
+        }
+    }
+
+    // Helper method to safely pull from your custom HashMap data structure implementation
+    private void PlayInteractionSound()
+    {
+        SFXManager sfx = FindObjectOfType<SFXManager>();
+        if (sfx != null && !string.IsNullOrEmpty(interactionSFXKey))
+        {
+            sfx.PlaySFX(interactionSFXKey);
         }
     }
 
@@ -99,8 +114,6 @@ public class InteractionTrigger : MonoBehaviour
             playerInRange = false;
             if (interactionPrompt != null) interactionPrompt.SetActive(false);
             
-            // Optional: Close dialogue if the player walks away mid-conversation
-            // DialogueManager.Instance.EndDialogue(); 
         }
     }
 }

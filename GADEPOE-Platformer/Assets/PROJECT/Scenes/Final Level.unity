@@ -2048,6 +2048,10 @@ PrefabInstance:
       propertyPath: conversationID
       value: NPC_hiddenPath
       objectReference: {fileID: 0}
+    - target: {fileID: 1203854218185254746, guid: 3322e06f0dae7024593f752ab1f01e3e, type: 3}
+      propertyPath: interactionSFXKey
+      value: Interaction
+      objectReference: {fileID: 0}
     - target: {fileID: 3289288319952427347, guid: 3322e06f0dae7024593f752ab1f01e3e, type: 3}
       propertyPath: m_LocalRotation.w
       value: 0.45923617
@@ -2369,7 +2373,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Unity.Cinemachine::Unity.Cinemachine.CinemachineCamera
   Priority:
-    Enabled: 1
+    Enabled: 0
     m_Value: 100
   OutputChannel: 1
   StandbyUpdate: 2
@@ -6191,6 +6195,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Gold_Bar (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 7284942197370346049, guid: 5487547ec7009f5428eafacecb709750, type: 3}
+      propertyPath: powerupSFXKey
+      value: PowerUpPickup
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -9047,31 +9055,31 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5750350035234801611, guid: 7ee788e611f9c4d4ba34feaef72934ae, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 48.05192
+      value: 28.391855
       objectReference: {fileID: 0}
     - target: {fileID: 5750350035234801611, guid: 7ee788e611f9c4d4ba34feaef72934ae, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 16.439999
+      value: 27.65
       objectReference: {fileID: 0}
     - target: {fileID: 5750350035234801611, guid: 7ee788e611f9c4d4ba34feaef72934ae, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -9.633113
+      value: -25.6022
       objectReference: {fileID: 0}
     - target: {fileID: 5750350035234801611, guid: 7ee788e611f9c4d4ba34feaef72934ae, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.2248075
+      value: -0.694147
       objectReference: {fileID: 0}
     - target: {fileID: 5750350035234801611, guid: 7ee788e611f9c4d4ba34feaef72934ae, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.029935764
+      value: -0.5957338
       objectReference: {fileID: 0}
     - target: {fileID: 5750350035234801611, guid: 7ee788e611f9c4d4ba34feaef72934ae, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.96563244
+      value: -0.3164341
       objectReference: {fileID: 0}
     - target: {fileID: 5750350035234801611, guid: 7ee788e611f9c4d4ba34feaef72934ae, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.12696265
+      value: 0.2512583
       objectReference: {fileID: 0}
     - target: {fileID: 5750350035234801611, guid: 7ee788e611f9c4d4ba34feaef72934ae, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -9087,7 +9095,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6571452311272744806, guid: 7ee788e611f9c4d4ba34feaef72934ae, type: 3}
       propertyPath: field of view
-      value: 89.5
+      value: 83.5
       objectReference: {fileID: 0}
     - target: {fileID: 6822010446364556742, guid: 7ee788e611f9c4d4ba34feaef72934ae, type: 3}
       propertyPath: m_LocalPosition.x
@@ -10913,6 +10921,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4069104767870387087, guid: cf21442d6a64dce40905d65c83484bcc, type: 3}
+      propertyPath: interactionSFXKey
+      value: Interaction
+      objectReference: {fileID: 0}
     - target: {fileID: 8316104614074556692, guid: cf21442d6a64dce40905d65c83484bcc, type: 3}
       propertyPath: m_LocalPosition.x
       value: 4.5693254
@@ -12002,6 +12014,74 @@ PrefabInstance:
     - target: {fileID: 4985272139941390406, guid: efeebae886420154cb3841bb937db165, type: 3}
       propertyPath: m_Name
       value: SFXManager
+      objectReference: {fileID: 0}
+    - target: {fileID: 6481977615818591337, guid: efeebae886420154cb3841bb937db165, type: 3}
+      propertyPath: soundRegistry.Array.size
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 6481977615818591337, guid: efeebae886420154cb3841bb937db165, type: 3}
+      propertyPath: soundRegistry.Array.data[0].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: 63a21c8606d518840972ef31ea30451d, type: 3}
+    - target: {fileID: 6481977615818591337, guid: efeebae886420154cb3841bb937db165, type: 3}
+      propertyPath: soundRegistry.Array.data[1].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: 45d5adbac7b8cba42adb5c3d26ac6888, type: 3}
+    - target: {fileID: 6481977615818591337, guid: efeebae886420154cb3841bb937db165, type: 3}
+      propertyPath: soundRegistry.Array.data[2].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: 81fb7104de942ec4ebbd3c621f653f62, type: 3}
+    - target: {fileID: 6481977615818591337, guid: efeebae886420154cb3841bb937db165, type: 3}
+      propertyPath: soundRegistry.Array.data[3].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: 1bb4c8464335106478bb9c567f5853ec, type: 3}
+    - target: {fileID: 6481977615818591337, guid: efeebae886420154cb3841bb937db165, type: 3}
+      propertyPath: soundRegistry.Array.data[4].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: bec10233d97c41b409d2037cf3284513, type: 3}
+    - target: {fileID: 6481977615818591337, guid: efeebae886420154cb3841bb937db165, type: 3}
+      propertyPath: soundRegistry.Array.data[5].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: 96279b4efc30c434e97a5fa94fe287a2, type: 3}
+    - target: {fileID: 6481977615818591337, guid: efeebae886420154cb3841bb937db165, type: 3}
+      propertyPath: soundRegistry.Array.data[6].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: d4b22f2fa612d6c4b917e67d49af0358, type: 3}
+    - target: {fileID: 6481977615818591337, guid: efeebae886420154cb3841bb937db165, type: 3}
+      propertyPath: soundRegistry.Array.data[7].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: d6a6e4516676bec428c3bb7a90fd3e21, type: 3}
+    - target: {fileID: 6481977615818591337, guid: efeebae886420154cb3841bb937db165, type: 3}
+      propertyPath: soundRegistry.Array.data[0].soundName
+      value: Footstep
+      objectReference: {fileID: 0}
+    - target: {fileID: 6481977615818591337, guid: efeebae886420154cb3841bb937db165, type: 3}
+      propertyPath: soundRegistry.Array.data[1].soundName
+      value: Interaction
+      objectReference: {fileID: 0}
+    - target: {fileID: 6481977615818591337, guid: efeebae886420154cb3841bb937db165, type: 3}
+      propertyPath: soundRegistry.Array.data[2].soundName
+      value: GoldPickup
+      objectReference: {fileID: 0}
+    - target: {fileID: 6481977615818591337, guid: efeebae886420154cb3841bb937db165, type: 3}
+      propertyPath: soundRegistry.Array.data[3].soundName
+      value: PlatformStart
+      objectReference: {fileID: 0}
+    - target: {fileID: 6481977615818591337, guid: efeebae886420154cb3841bb937db165, type: 3}
+      propertyPath: soundRegistry.Array.data[4].soundName
+      value: Winner
+      objectReference: {fileID: 0}
+    - target: {fileID: 6481977615818591337, guid: efeebae886420154cb3841bb937db165, type: 3}
+      propertyPath: soundRegistry.Array.data[5].soundName
+      value: HealthPickup
+      objectReference: {fileID: 0}
+    - target: {fileID: 6481977615818591337, guid: efeebae886420154cb3841bb937db165, type: 3}
+      propertyPath: soundRegistry.Array.data[6].soundName
+      value: PowerUpPickup
+      objectReference: {fileID: 0}
+    - target: {fileID: 6481977615818591337, guid: efeebae886420154cb3841bb937db165, type: 3}
+      propertyPath: soundRegistry.Array.data[7].soundName
+      value: Death
       objectReference: {fileID: 0}
     - target: {fileID: 8606962964785461307, guid: efeebae886420154cb3841bb937db165, type: 3}
       propertyPath: m_LocalPosition.x

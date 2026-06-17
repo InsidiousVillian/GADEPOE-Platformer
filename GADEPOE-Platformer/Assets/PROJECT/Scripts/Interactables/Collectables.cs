@@ -6,6 +6,12 @@ public class Collectables : MonoBehaviour
     [SerializeField] private Type collectableType;
     [SerializeField] private int value = 10;
 
+    [Header("Custom HashMap Audio Mapping Keys")]
+    [Tooltip("The SFX key used for this specific item type in your SFXManager setup")]
+    [SerializeField] private string goldSFXKey = "GoldPickup";
+    [SerializeField] private string healthSFXKey = "HealthPickup";
+    [SerializeField] private string powerupSFXKey = "PowerUpPickup";
+
     private float rotationSpeed = 50f;
 
     void Update()
@@ -19,6 +25,10 @@ public class Collectables : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             ApplyEffect(other.gameObject);
+            
+           
+            PlayPickupSound();
+
             Debug.Log($"Collected {collectableType}!");
             Destroy(gameObject);
         }
@@ -36,13 +46,10 @@ public class Collectables : MonoBehaviour
         switch (collectableType)
         {
             case Type.GoldBar:
-                // Calls the method that triggers the Gold UI update
                 stats.AddScore(value); 
                 break;
 
             case Type.HealthPack:
-                // CHANGED: Instead of stats.lives += value, we call Heal()
-                // This ensures the UI Slider moves!
                 stats.Heal(value); 
                 break;
 
@@ -53,6 +60,34 @@ public class Collectables : MonoBehaviour
             case Type.None: 
                 Debug.LogWarning("Collectable type is set to None. No effect applied.");
                 break;
+        }
+    }
+
+    // Safely reads your custom polynomial hashmap structure to serve the correct sound file asset
+    private void PlayPickupSound()
+    {
+        SFXManager sfx = FindObjectOfType<SFXManager>();
+        if (sfx == null) return;
+
+        string targetKey = string.Empty;
+
+        // Switch to find the correct string key match based on the item type enum properties
+        switch (collectableType)
+        {
+            case Type.GoldBar:
+                targetKey = goldSFXKey;
+                break;
+            case Type.HealthPack:
+                targetKey = healthSFXKey;
+                break;
+            case Type.PowerUp:
+                targetKey = powerupSFXKey;
+                break;
+        }
+
+        if (!string.IsNullOrEmpty(targetKey))
+        {
+            sfx.PlaySFX(targetKey);
         }
     }
 }

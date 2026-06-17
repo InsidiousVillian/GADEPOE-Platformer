@@ -13,9 +13,15 @@ public class PlayerPlatformTrigger : MonoBehaviour
         {
             if (movingPlatform != null)
             {
-                // Turn on the platform's movement!
+                
                 movingPlatform.StartMoving();
                 Debug.Log("Hero detected! Platform starting...");
+
+                SFXManager sfx = FindObjectOfType<SFXManager>();
+                if (sfx != null)
+                {
+                    sfx.PlaySFX("PlatformStart");
+                }
             }
         }
     }

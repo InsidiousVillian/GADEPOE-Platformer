@@ -19,6 +19,10 @@ public class PlayerMovement : MonoBehaviour
 
     [Header("References")]
     public Transform cameraTransform;
+
+    [Header("Footstep SFX Configurations")]
+    [SerializeField] private float stepCooldown = 0.4f; // Time in seconds between step loops
+    private float stepTimer = 0f;
  
     private Rigidbody rb;
     private Animator animator;
@@ -36,21 +40,19 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
-        //stops player movement and jumping when dialogue is active
+        // Stops player movement and jumping when dialogue is active
         if (DialogueManager.Instance != null && DialogueManager.Instance.IsDialogueActive) 
         { 
             rb.linearVelocity = Vector3.zero;
-
             animator.SetFloat("Speed", 0f);
-            
             return; 
-            
         }
 
         CheckGround();
         HandleInput();
         HandleRotation();
         HandleAnimations();
+        HandleFootstepAudio(); // Process our custom HashMap audio tick window safely
 
         if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
         {
@@ -68,6 +70,14 @@ public class PlayerMovement : MonoBehaviour
     {
         float h = Input.GetAxis("Horizontal");
         float v = Input.GetAxis("Vertical");
+
+        // Use our fallback protection check just in case the camera reference is unassigned
+        if (cameraTransform == null && Camera.main != null)
+        {
+            cameraTransform = Camera.main.transform;
+        }
+
+        if (cameraTransform == null) return;
 
         Vector3 camForward = cameraTransform.forward;
         Vector3 camRight = cameraTransform.right;
@@ -88,11 +98,8 @@ public class PlayerMovement : MonoBehaviour
         Vector3 targetVelocity = moveDirection * moveSpeed;
         Vector3 velocity = rb.linearVelocity;
 
-        Vector3 velocityChange = (
-        targetVelocity - new Vector3(velocity.x, 0, velocity.z))
-        * acceleration * control * Time.fixedDeltaTime;
+        Vector3 velocityChange = (targetVelocity - new Vector3(velocity.x, 0, velocity.z)) * acceleration * control * Time.fixedDeltaTime;
         rb.AddForce(velocityChange, ForceMode.VelocityChange);
-
     }
 
     void HandleRotation()
@@ -129,10 +136,39 @@ public class PlayerMovement : MonoBehaviour
     {
         float speed = new Vector3(rb.linearVelocity.x, 0, rb.linearVelocity.z).magnitude;
 
-    
         if (speed < 0.05f) { speed = 0f; }
 
         animator.SetFloat("Speed", speed);
         animator.SetBool("isGrounded", isGrounded);
+    }
+
+    // Process rhythm calculations and request audio assets from our custom ADT structure
+    void HandleFootstepAudio()
+    {
+        // Calculate the actual horizontal footprint speed velocity 
+        float horizontalSpeed = new Vector3(rb.linearVelocity.x, 0f, rb.linearVelocity.z).magnitude;
+
+        // Condition check: Character must be actively traversing the ground surfaces and inputting direction
+        if (isGrounded && horizontalSpeed > 0.1f && moveDirection.magnitude > 0.1f)
+        {
+            stepTimer += Time.deltaTime;
+
+            if (stepTimer >= stepCooldown)
+            {
+                // Query our custom Separate-Chaining HashMap structure via the global manager component instance
+                SFXManager sfx = FindObjectOfType<SFXManager>();
+                if (sfx != null)
+                {
+                    sfx.PlaySFX("Footstep");
+                }
+
+                stepTimer = 0f; // Reset loop state window execution window
+            }
+        }
+        else
+        {
+            // Instantly prime the timer context when stationary so execution triggers on the very first physical stride step
+            stepTimer = stepCooldown;
+        }
     }
 }
