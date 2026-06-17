@@ -18,8 +18,8 @@ public class UIManager : MonoBehaviour
     private void OnEnable()
     {
         // Subscribe to the events when the UI is active
-        PlayerStats.Instance.OnHealthChanged += UpdateHealthUI;
-        PlayerStats.Instance.OnGoldChanged += UpdateGoldUI;
+        //PlayerStats.Instance.OnHealthChanged += UpdateHealthUI;
+       // PlayerStats.Instance.OnGoldChanged += UpdateGoldUI;
     }
 
     /*
